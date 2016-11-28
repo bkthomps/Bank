@@ -1,10 +1,10 @@
 /**
- ***********************************************************************************************************************************
+ ***********************************************************************************************************************
  * Bailey Thompson
- * Bank (1.0)
- * 16 September 2016
+ * Bank (1.0.1)
+ * 27 November 2016
  * Info: This program simulates an automated banking system.
- ***********************************************************************************************************************************
+ ***********************************************************************************************************************
  */
 //declaring package
 package bank;
@@ -54,7 +54,8 @@ public class Bank {
     JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
     //declaring various buttons
     JButton deposit = new JButton("Deposit"), withdraw = new JButton("Withdraw"), next = new JButton("Next");
-    JButton exit = new JButton("Exit"), back = new JButton("Back"), login = new JButton("Login"), register = new JButton("Register");
+    JButton exit = new JButton("Exit"), back = new JButton("Back");
+    JButton login = new JButton("Login"), register = new JButton("Register");
     JButton money20 = new JButton("$20"), money50 = new JButton("$50"), money100 = new JButton("$100");
     JButton money200 = new JButton("$200"), money500 = new JButton("$500"), money1000 = new JButton("$1000");
     //panel used for numbers
