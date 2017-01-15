@@ -1,6 +1,6 @@
 /**
  * Bailey Thompson
- * Bank (1.0.5)
+ * Bank (1.0.6)
  * 14 January 2017
  * Info: This program simulates an automated banking system.
  */
@@ -119,7 +119,7 @@ public class Bank {
 
         money20.addActionListener((ActionEvent e) -> {
             //logic executed
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 20;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -138,7 +138,7 @@ public class Bank {
         });
 
         money50.addActionListener((ActionEvent e) -> {
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 50;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -156,7 +156,7 @@ public class Bank {
         });
 
         money100.addActionListener((ActionEvent e) -> {
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 100;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -175,7 +175,7 @@ public class Bank {
         });
 
         money200.addActionListener((ActionEvent e) -> {
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 200;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -188,14 +188,14 @@ public class Bank {
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
-            
+
             split[usernameIndex + 2] = String.valueOf(balance);
             save();
         });
 
         money500.addActionListener((ActionEvent e) -> {
             //logic executed
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 500;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -214,7 +214,7 @@ public class Bank {
         });
 
         money1000.addActionListener((ActionEvent e) -> {
-            if (isDepositing == true) {
+            if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 1000;
                     text.setText("Select amount to deposit. Amount in account: $" + balance);
@@ -243,14 +243,14 @@ public class Bank {
                         //setting temporary variable
                         int tempUsername = (int) (textField.getValue());
                         //if login is being proccessed
-                        if (isRegister == false) {
+                        if (!isRegister) {
                             for (int counter = 0; counter < split.length; counter += 3) {
                                 if (parseInt(split[counter]) == tempUsername) {
                                     used = true;
                                     usernameIndex = counter;
                                 }
                             }
-                            if (used == true) {
+                            if (used) {
                                 username = tempUsername;
                             } else {
                                 text.setText("This bank code does not exist!");
@@ -262,7 +262,7 @@ public class Bank {
                                     used = true;
                                 }
                             }
-                            if (used == false) {
+                            if (!used) {
                                 username = tempUsername;
                                 usernameIndex = split.length;
                             } else {
@@ -289,7 +289,7 @@ public class Bank {
                         //setting temporary variable
                         int tempPassword = (int) (textField.getValue());
                         //if login is being proccessed
-                        if (isRegister == false) {
+                        if (!isRegister) {
                             if (tempPassword == parseInt(split[usernameIndex + 1])) {
                                 password = tempPassword;
                             } else {
