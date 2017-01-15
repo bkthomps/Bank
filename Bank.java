@@ -1,7 +1,7 @@
 /**
  * Bailey Thompson
- * Bank (1.0.4)
- * 8 January 2017
+ * Bank (1.0.5)
+ * 14 January 2017
  * Info: This program simulates an automated banking system.
  */
 package bank;
@@ -31,22 +31,22 @@ import javax.swing.text.NumberFormatter;
 
 public class Bank {
 
-    private static final Path FILE = Paths.get("JBBank.txt");
-    private int username, password, balance, usernameIndex;
-    private boolean isDepositing, isRegister;
-    private String saveFile;
-    private String[] split;
-    private NumberFormat format;
-    private NumberFormatter formatter;
-    private JFormattedTextField textField;
+    Path file = Paths.get("JBBank.txt");
+    String saveFile;
+    String[] split;
+    NumberFormat format;
+    NumberFormatter formatter;
+    JFormattedTextField textField;
     private final JFrame frame = new JFrame("JB's Bank");
-    private final JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
-    private final JButton deposit = new JButton("Deposit"), withdraw = new JButton("Withdraw"), next = new JButton("Next");
-    private final JButton exit = new JButton("Exit"), back = new JButton("Back");
-    private final JButton login = new JButton("Login"), register = new JButton("Register");
-    private final JButton money20 = new JButton("$20"), money50 = new JButton("$50"), money100 = new JButton("$100");
-    private final JButton money200 = new JButton("$200"), money500 = new JButton("$500"), money1000 = new JButton("$1000");
-    private final JPanel numberPanel = new JPanel();
+    int username, password, balance, usernameIndex;
+    boolean isDepositing, isRegister, used;
+    JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
+    JButton deposit = new JButton("Deposit"), withdraw = new JButton("Withdraw"), next = new JButton("Next");
+    JButton exit = new JButton("Exit"), back = new JButton("Back");
+    JButton login = new JButton("Login"), register = new JButton("Register");
+    JButton money20 = new JButton("$20"), money50 = new JButton("$50"), money100 = new JButton("$100");
+    JButton money200 = new JButton("$200"), money500 = new JButton("$500"), money1000 = new JButton("$1000");
+    JPanel numberPanel = new JPanel();
 
     public static void main(String[] args) {
         Bank Bank = new Bank();
@@ -94,56 +94,163 @@ public class Bank {
         });
 
         deposit.addActionListener((ActionEvent e) -> {
-            setInfo();
+            //setting the GUI
+            text.setText("Select amount to deposit. Amount in account: $" + balance);
+            frame.getContentPane().removeAll();
+            frame.add(text);
+            frame.add(numberPanel);
+            frame.add(back);
+            frame.setLayout(new GridLayout(3, 1));
+            frame.repaint();
             isDepositing = true;
         });
 
         withdraw.addActionListener((ActionEvent e) -> {
-            setInfo();
+            //setting the GUI
+            text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            frame.getContentPane().removeAll();
+            frame.add(text);
+            frame.add(numberPanel);
+            frame.add(back);
+            frame.setLayout(new GridLayout(3, 1));
+            frame.repaint();
             isDepositing = false;
         });
 
         money20.addActionListener((ActionEvent e) -> {
-            accountInteraction(20);
+            //logic executed
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 20;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 20) {
+                    balance -= 20;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         money50.addActionListener((ActionEvent e) -> {
-            accountInteraction(50);
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 50;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 50) {
+                    balance -= 50;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         money100.addActionListener((ActionEvent e) -> {
-            accountInteraction(100);
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 100;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 100) {
+                    balance -= 100;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         money200.addActionListener((ActionEvent e) -> {
-            accountInteraction(200);
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 200;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 200) {
+                    balance -= 200;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+            
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         money500.addActionListener((ActionEvent e) -> {
-            accountInteraction(500);
+            //logic executed
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 500;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 500) {
+                    balance -= 500;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         money1000.addActionListener((ActionEvent e) -> {
-            accountInteraction(1000);
+            if (isDepositing == true) {
+                if (balance <= 1000000000) {
+                    balance += 1000;
+                    text.setText("Select amount to deposit. Amount in account: $" + balance);
+                }
+            } else {
+                if (balance >= 1000) {
+                    balance -= 1000;
+                } else {
+                    balance = 0;
+                }
+                text.setText("Select amount to withdraw. Amount in account: $" + balance);
+            }
+
+            split[usernameIndex + 2] = String.valueOf(balance);
+            save();
         });
 
         next.addActionListener((ActionEvent e) -> {
-            boolean used = false;
+            used = false;
+            //when login is being entered
             if (username == 0) {
                 //if user has entered something
                 if (textField.getValue() != null) {
                     //when what user has entered is long enough
                     if ((int) (textField.getValue()) >= 100000) {
+                        //setting temporary variable
                         int tempUsername = (int) (textField.getValue());
                         //if login is being proccessed
-                        if (!isRegister) {
+                        if (isRegister == false) {
                             for (int counter = 0; counter < split.length; counter += 3) {
                                 if (parseInt(split[counter]) == tempUsername) {
                                     used = true;
                                     usernameIndex = counter;
                                 }
                             }
-                            if (used) {
+                            if (used == true) {
                                 username = tempUsername;
                             } else {
                                 text.setText("This bank code does not exist!");
@@ -155,7 +262,7 @@ public class Bank {
                                     used = true;
                                 }
                             }
-                            if (!used) {
+                            if (used == false) {
                                 username = tempUsername;
                                 usernameIndex = split.length;
                             } else {
@@ -182,7 +289,7 @@ public class Bank {
                         //setting temporary variable
                         int tempPassword = (int) (textField.getValue());
                         //if login is being proccessed
-                        if (!isRegister) {
+                        if (isRegister == false) {
                             if (tempPassword == parseInt(split[usernameIndex + 1])) {
                                 password = tempPassword;
                             } else {
@@ -212,50 +319,28 @@ public class Bank {
         });
     }
 
-    private void setInfo() {
-        text.setText("Select amount to withdraw. Amount in account: $" + balance);
-        frame.getContentPane().removeAll();
-        frame.add(text);
-        frame.add(numberPanel);
-        frame.add(back);
-        frame.setLayout(new GridLayout(3, 1));
-        frame.repaint();
-    }
-
-    private void accountInteraction(int amountOfMoney) {
-        if (isDepositing) {
-            if (balance <= 1000000000) {
-                balance += amountOfMoney;
-                text.setText("Select amount to deposit. Amount in account: $" + balance);
-            }
-        } else {
-            if (balance >= amountOfMoney) {
-                balance -= amountOfMoney;
-            } else {
-                balance = 0;
-            }
-            text.setText("Select amount to withdraw. Amount in account: $" + balance);
-        }
-        split[usernameIndex + 2] = String.valueOf(balance);
-        save();
-    }
-
     private void startScreen() {
+        //resetting variables
         username = 0;
         password = 0;
         balance = 0;
-
+        //setting text
         text.setText("Welcome to JB's Bank! What action would you like to make today?");
         exit.setText("Exit Application");
-        setGUI();
+        //resetting GUI
+        frame.getContentPane().removeAll();
+        frame.add(text);
+        frame.add(login);
+        frame.add(register);
+        frame.add(exit);
+        frame.setLayout(new GridLayout(4, 1));
+        frame.repaint();
     }
 
     private void loginScreen() {
+        //setting text
         text.setText("Please select your operation!");
-        setGUI();
-    }
-
-    private void setGUI() {
+        //resetting GUI
         frame.getContentPane().removeAll();
         frame.add(text);
         frame.add(deposit);
@@ -266,9 +351,11 @@ public class Bank {
     }
 
     private void operations() {
+        //setting text
         text.setText("Please insert your six digit bank code!");
         exit.setText("Return To Main Screen");
 
+        //formatting for test field
         format = NumberFormat.getInstance();
         formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
@@ -278,6 +365,7 @@ public class Bank {
         formatter.setCommitsOnValidEdit(true);
         textField = new JFormattedTextField(formatter);
 
+        //resetting GUI
         frame.getContentPane().removeAll();
         frame.add(text);
         frame.add(textField);
@@ -289,17 +377,20 @@ public class Bank {
 
     private void load() {
         try {
-            Files.createFile(FILE);
+            //trying to create file
+            Files.createFile(file);
+            //executed if file already exists
         } catch (FileAlreadyExistsException x) {
             //file is read from and saved to variable saveFile is file already exists
-            try (InputStream in = Files.newInputStream(FILE);
+            try (InputStream in = Files.newInputStream(file);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-                String line = reader.readLine();
-                while (line != null) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    //content of file is saved to saveFile
                     saveFile = line;
                 }
-            } catch (IOException e) {
-                System.err.println(e);
+            } catch (IOException y) {
+                System.err.println(y);
             }
         } catch (IOException x) {
             System.err.println(x);
@@ -312,15 +403,18 @@ public class Bank {
         split = saveFile.split("\\s+");
     }
 
+    //method used for saving to file
     private void save() {
         saveFile = "";
+        //weird loop used for saving to file
         for (int counter = 0; counter < split.length; counter += 1) {
             saveFile += split[counter] + " ";
         }
         //saveFile is converted to byte data
         byte data[] = saveFile.getBytes();
         //byte data is saved to file using file io
-        try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
+        try (OutputStream out = new BufferedOutputStream(
+                Files.newOutputStream(file, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
         } catch (IOException x) {
             System.err.println(x);
