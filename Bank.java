@@ -1,10 +1,9 @@
-/**
+/*
  * Bailey Thompson
- * Bank (1.0.6)
- * 14 January 2017
- * Info: This program simulates an automated banking system.
+ * Bank (1.1.0)
+ * 6 February 2017
+ * This program simulates an automated banking system.
  */
-package bank;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -29,24 +28,36 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
-public class Bank {
+class Bank {
 
-    Path file = Paths.get("JBBank.txt");
-    String saveFile;
-    String[] split;
-    NumberFormat format;
-    NumberFormatter formatter;
-    JFormattedTextField textField;
+    private final Path file = Paths.get("JBBank.txt");
+    private String saveFile;
+    private String[] split;
+    private NumberFormatter formatter;
+    private JFormattedTextField textField;
     private final JFrame frame = new JFrame("JB's Bank");
-    int username, password, balance, usernameIndex;
-    boolean isDepositing, isRegister, used;
-    JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
-    JButton deposit = new JButton("Deposit"), withdraw = new JButton("Withdraw"), next = new JButton("Next");
-    JButton exit = new JButton("Exit"), back = new JButton("Back");
-    JButton login = new JButton("Login"), register = new JButton("Register");
-    JButton money20 = new JButton("$20"), money50 = new JButton("$50"), money100 = new JButton("$100");
-    JButton money200 = new JButton("$200"), money500 = new JButton("$500"), money1000 = new JButton("$1000");
-    JPanel numberPanel = new JPanel();
+    private int username;
+    private int password;
+    private int balance;
+    private int usernameIndex;
+    private boolean isDepositing;
+    private boolean isRegister;
+    private boolean used;
+    private final JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
+    private final JButton deposit = new JButton("Deposit");
+    private final JButton withdraw = new JButton("Withdraw");
+    private final JButton next = new JButton("Next");
+    private final JButton exit = new JButton("Exit");
+    private final JButton back = new JButton("Back");
+    private final JButton login = new JButton("Login");
+    private final JButton register = new JButton("Register");
+    private final JButton money20 = new JButton("$20");
+    private final JButton money50 = new JButton("$50");
+    private final JButton money100 = new JButton("$100");
+    private final JButton money200 = new JButton("$200");
+    private final JButton money500 = new JButton("$500");
+    private final JButton money1000 = new JButton("$1000");
+    private final JPanel numberPanel = new JPanel();
 
     public static void main(String[] args) {
         Bank Bank = new Bank();
@@ -89,12 +100,9 @@ public class Bank {
             }
         });
 
-        back.addActionListener((ActionEvent e) -> {
-            loginScreen();
-        });
+        back.addActionListener((ActionEvent e) -> loginScreen());
 
         deposit.addActionListener((ActionEvent e) -> {
-            //setting the GUI
             text.setText("Select amount to deposit. Amount in account: $" + balance);
             frame.getContentPane().removeAll();
             frame.add(text);
@@ -106,7 +114,6 @@ public class Bank {
         });
 
         withdraw.addActionListener((ActionEvent e) -> {
-            //setting the GUI
             text.setText("Select amount to withdraw. Amount in account: $" + balance);
             frame.getContentPane().removeAll();
             frame.add(text);
@@ -118,7 +125,6 @@ public class Bank {
         });
 
         money20.addActionListener((ActionEvent e) -> {
-            //logic executed
             if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 20;
@@ -194,7 +200,6 @@ public class Bank {
         });
 
         money500.addActionListener((ActionEvent e) -> {
-            //logic executed
             if (isDepositing) {
                 if (balance <= 1000000000) {
                     balance += 500;
@@ -234,15 +239,10 @@ public class Bank {
 
         next.addActionListener((ActionEvent e) -> {
             used = false;
-            //when login is being entered
             if (username == 0) {
-                //if user has entered something
                 if (textField.getValue() != null) {
-                    //when what user has entered is long enough
                     if ((int) (textField.getValue()) >= 100000) {
-                        //setting temporary variable
                         int tempUsername = (int) (textField.getValue());
-                        //if login is being proccessed
                         if (!isRegister) {
                             for (int counter = 0; counter < split.length; counter += 3) {
                                 if (parseInt(split[counter]) == tempUsername) {
@@ -255,7 +255,6 @@ public class Bank {
                             } else {
                                 text.setText("This bank code does not exist!");
                             }
-                            //if register is being proccessed
                         } else {
                             for (int counter = 0; counter < split.length; counter += 3) {
                                 if (parseInt(split[counter]) == tempUsername) {
@@ -269,7 +268,6 @@ public class Bank {
                                 text.setText("That bank code has already been used.");
                             }
                         }
-                        //if username entered passes all checks
                         if (username != 0) {
                             text.setText("Please insert your four digit passcode!");
                             formatter.setMaximum(9999);
@@ -280,15 +278,10 @@ public class Bank {
                         text.setText("Your bank code must not start with a zero and must be six digits!");
                     }
                 }
-                //when password is being entered
-            } else if (username != 0) {
-                //if user has entered something
+            } else {
                 if (textField.getValue() != null) {
-                    //when what user has entered is long enough
                     if ((int) (textField.getValue()) >= 1000) {
-                        //setting temporary variable
                         int tempPassword = (int) (textField.getValue());
-                        //if login is being proccessed
                         if (!isRegister) {
                             if (tempPassword == parseInt(split[usernameIndex + 1])) {
                                 password = tempPassword;
@@ -296,18 +289,16 @@ public class Bank {
                                 text.setText("Incorrect password!");
                             }
                             balance = parseInt(split[usernameIndex + 2]);
-                            //if register is being proccessed
                         } else {
                             password = (int) (textField.getValue());
                             saveFile = "";
-                            for (int counter = 0; counter < split.length; counter += 1) {
-                                saveFile += split[counter] + " ";
+                            for (String aSplit : split) {
+                                saveFile += aSplit + " ";
                             }
                             saveFile += username + " " + password + " 0 ";
                             split = saveFile.split("\\s+");
                             save();
                         }
-                        //if password entered passes all checks
                         if (password != 0) {
                             loginScreen();
                         }
@@ -320,14 +311,11 @@ public class Bank {
     }
 
     private void startScreen() {
-        //resetting variables
         username = 0;
         password = 0;
         balance = 0;
-        //setting text
         text.setText("Welcome to JB's Bank! What action would you like to make today?");
         exit.setText("Exit Application");
-        //resetting GUI
         frame.getContentPane().removeAll();
         frame.add(text);
         frame.add(login);
@@ -338,9 +326,7 @@ public class Bank {
     }
 
     private void loginScreen() {
-        //setting text
         text.setText("Please select your operation!");
-        //resetting GUI
         frame.getContentPane().removeAll();
         frame.add(text);
         frame.add(deposit);
@@ -351,12 +337,10 @@ public class Bank {
     }
 
     private void operations() {
-        //setting text
         text.setText("Please insert your six digit bank code!");
         exit.setText("Return To Main Screen");
 
-        //formatting for test field
-        format = NumberFormat.getInstance();
+        NumberFormat format = NumberFormat.getInstance();
         formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
         formatter.setMinimum(1);
@@ -365,7 +349,6 @@ public class Bank {
         formatter.setCommitsOnValidEdit(true);
         textField = new JFormattedTextField(formatter);
 
-        //resetting GUI
         frame.getContentPane().removeAll();
         frame.add(text);
         frame.add(textField);
@@ -377,47 +360,37 @@ public class Bank {
 
     private void load() {
         try {
-            //trying to create file
             Files.createFile(file);
-            //executed if file already exists
         } catch (FileAlreadyExistsException x) {
-            //file is read from and saved to variable saveFile is file already exists
             try (InputStream in = Files.newInputStream(file);
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    //content of file is saved to saveFile
                     saveFile = line;
                 }
             } catch (IOException y) {
-                System.err.println(y);
+                System.err.println("Error 1 in load method");
             }
         } catch (IOException x) {
-            System.err.println(x);
+            System.err.println("Error 2 in load method");
         }
-        //if the file does not contain anything since it was just created, default variables are used for save file
         if (saveFile == null) {
             saveFile = "301942 1234 0 ";
         }
-        //a String array is created and each part of the array is saved to from saveFile seperated by spaces
         split = saveFile.split("\\s+");
     }
 
-    //method used for saving to file
     private void save() {
         saveFile = "";
-        //weird loop used for saving to file
-        for (int counter = 0; counter < split.length; counter += 1) {
-            saveFile += split[counter] + " ";
+        for (String aSplit : split) {
+            saveFile += aSplit + " ";
         }
-        //saveFile is converted to byte data
         byte data[] = saveFile.getBytes();
-        //byte data is saved to file using file io
         try (OutputStream out = new BufferedOutputStream(
                 Files.newOutputStream(file, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
         } catch (IOException x) {
-            System.err.println(x);
+            System.err.println("Error in save method");
         }
     }
 }
