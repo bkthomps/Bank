@@ -28,7 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
-public class Bank {
+class Bank {
 
     private final Path file = Paths.get("JBBank.txt");
     private String saveFile;
