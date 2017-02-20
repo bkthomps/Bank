@@ -1,8 +1,7 @@
 /*
  * Bailey Thompson
- * Bank (1.1.0)
- * 6 February 2017
- * This program simulates an automated banking system.
+ * Bank (1.1.1)
+ * 20 February 2017
  */
 
 import java.awt.GridLayout;
@@ -13,13 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import static java.lang.Integer.parseInt;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
-import static java.nio.file.StandardOpenOption.WRITE;
 import java.text.NumberFormat;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -28,21 +24,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
+import static java.lang.Integer.parseInt;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
+
+/**
+ * Simulates an automated banking system.
+ */
 class Bank {
 
-    private final Path file = Paths.get("JBBank.txt");
-    private String saveFile;
-    private String[] split;
-    private NumberFormatter formatter;
-    private JFormattedTextField textField;
+    private final Path FILE = Paths.get("JBBank.txt");
+
     private final JFrame frame = new JFrame("JB's Bank");
-    private int username;
-    private int password;
-    private int balance;
-    private int usernameIndex;
-    private boolean isDepositing;
-    private boolean isRegister;
-    private boolean used;
     private final JLabel text = new JLabel("Welcome to JB's Bank! What action would you like to make today?");
     private final JButton deposit = new JButton("Deposit");
     private final JButton withdraw = new JButton("Withdraw");
@@ -58,6 +51,14 @@ class Bank {
     private final JButton money500 = new JButton("$500");
     private final JButton money1000 = new JButton("$1000");
     private final JPanel numberPanel = new JPanel();
+
+    private NumberFormatter formatter;
+    private JFormattedTextField textField;
+
+    private String saveFile;
+    private String[] split;
+    private int username, password, balance, usernameIndex;
+    private boolean isDepositing, isRegister, used;
 
     public static void main(String[] args) {
         Bank Bank = new Bank();
@@ -360,9 +361,9 @@ class Bank {
 
     private void load() {
         try {
-            Files.createFile(file);
+            Files.createFile(FILE);
         } catch (FileAlreadyExistsException x) {
-            try (InputStream in = Files.newInputStream(file);
+            try (InputStream in = Files.newInputStream(FILE);
                  BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -387,7 +388,7 @@ class Bank {
         }
         byte data[] = saveFile.getBytes();
         try (OutputStream out = new BufferedOutputStream(
-                Files.newOutputStream(file, WRITE, TRUNCATE_EXISTING))) {
+                Files.newOutputStream(FILE, WRITE, TRUNCATE_EXISTING))) {
             out.write(data, 0, data.length);
         } catch (IOException x) {
             System.err.println("Error in save method");
