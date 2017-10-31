@@ -135,7 +135,7 @@ class Bank {
                 if (balance >= 20) {
                     balance -= 20;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
@@ -154,7 +154,7 @@ class Bank {
                 if (balance >= 50) {
                     balance -= 50;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
@@ -172,7 +172,7 @@ class Bank {
                 if (balance >= 100) {
                     balance -= 100;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
@@ -191,7 +191,7 @@ class Bank {
                 if (balance >= 200) {
                     balance -= 200;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
@@ -210,7 +210,7 @@ class Bank {
                 if (balance >= 500) {
                     balance -= 500;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
@@ -229,7 +229,7 @@ class Bank {
                 if (balance >= 1000) {
                     balance -= 1000;
                 } else {
-                    balance = 0;
+                    System.out.println("Balance is not enough");
                 }
                 text.setText("Select amount to withdraw. Amount in account: $" + balance);
             }
